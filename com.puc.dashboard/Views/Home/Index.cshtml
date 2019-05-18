@@ -1,0 +1,215 @@
+﻿@{
+    ViewData["Title"] = "Painel";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">Bem-Vindo!</h1>
+        <p>
+            Este Dashboard tem como finalidade trazer um relatório simplificado sobre as <br/>
+            requisições trafegadas no DNS Proxy da PUC, para sugestões envie um email para
+            <a href="mailto:tvplopes@sga.pucminas.br">Thiago Lopes</a>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">face</i>
+                        </div>
+                        <p class="card-category">Total de Origens</p>
+                        <h3 class="card-title">@ViewBag.ContadorOrigemHora</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons text-danger">warning</i>
+                            @ViewBag.DataHora
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">flight_takeoff</i>
+                        </div>
+                        <p class="card-category">Destinos Diferentes</p>
+                        <h3 class="card-title">@ViewBag.ContadorDestinoHora</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons text-danger">warning</i>
+                            @ViewBag.DataHora
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">store</i>
+                        </div>
+                        <p class="card-category">Origens</p>
+                        <h3 class="card-title">@ViewBag.ContadorOrigem24</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i> Ultimas 24 Horas
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-info card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">history</i>
+                        </div>
+                        <p class="card-category">Destinos</p>
+                        <h3 class="card-title">@ViewBag.ContadorDestino24</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i> Ultimas 24 Horas
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-chart card-header-warning">
+                        <div class="ct-chart" id="dailySalesChart"></div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Origens do Dia</h4>
+                        <p class="card-category">Gr&aacute;fico das diferentes origens acessantes no dia por hora</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> trazer a data aqui com hora
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-chart card-header-success">
+                        <div class="ct-chart" id="completedTasksChart"></div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Destinos do Dia</h4>
+                        <p class="card-category">Gr&aacute;fico dos diferentes destinos requisitados no dia por hora </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> trazer a data aqui com hora
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Datatable.net-->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-primary card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">assignment</i>
+                                </div>
+                                <h4 class="card-title">DataTables.net</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="toolbar">
+                                    <!--        Here you can write extra buttons/actions for the toolbar              -->
+                                </div>
+                                <div class="material-datatables">
+                                    <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Origem</th>
+                                                <th>Destino</th>
+                                                <th>Horario</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Origem</th>
+                                                <th>Destino</th>
+                                                <th>Horario</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            @foreach (var requisicao in @ViewBag.Requisicoes)
+                                            {
+                                                <tr>
+                                                    <td>@requisicao.Origem</td>
+                                                    <td>@requisicao.Destino</td>
+                                                    <td>@requisicao.DataHora</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- end content-->
+                        </div>
+                        <!--  end card  -->
+                    </div>
+                    <!-- end col-md-12 -->
+                </div>
+                <!-- end row -->
+            </div>
+        </div>
+        <!-- End Datatable.net-->
+    
+    </div>
+    <script>
+
+
+  initDocumentationCharts: function() {
+    if ($('#dailySalesChart').length != 0 && $('#websiteViewsChart').length != 0) {
+      /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
+
+      dataDailySalesChart = {
+        labels: ['0h', '3h', '6h', '9h', '12h', '15h', '18h', '21h'],
+        series: [
+          @ViewBag.OrigemGrafico
+        ]
+        };
+
+        dataDailySalesChart = {
+        labels: ['0h', '3h', '6h', '9h', '12h', '15h', '18h', '21h'],
+        series: [
+          @ViewBag.DestinoGrafico
+        ]
+      };
+
+      optionsDailySalesChart = {
+        lineSmooth: Chartist.Interpolation.cardinal({
+          tension: 0
+        }),
+        low: 0,
+        high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+        chartPadding: {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0
+        },
+      }
+
+      var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
+
+      var animationHeaderChart = new Chartist.Line('#websiteViewsChart', dataDailySalesChart, optionsDailySalesChart);
+    }
+  },
+    </script>
+    
